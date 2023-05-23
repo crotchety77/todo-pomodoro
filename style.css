@@ -241,6 +241,10 @@ body {
 }
 .popup__content {
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   /* opacity: 1; */
   color: black;
   border: 3px solid black;
@@ -266,4 +270,52 @@ body {
   /* background-color: green; */
   opacity: 50%;
   visibility: visible;
+}
+.pomodoro__section{
+  display: flex;
+  flex-direction: row;
+}
+.pomodoro__section-buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.progress-ring {
+  color: red;
+  /* background-color: red; */
+}
+.progress-ring__circle {
+  /* stroke-dasharray:; */
+}
+
+.progress__bar{
+  display:flex;
+  width: 300px;
+  padding: 30px 0;
+  flex-direction: column;
+  align-items: center;
+}
+.circular-progress{
+  position: relative;
+  height: 250px;
+  width: 250px;
+  background-color: #f0ff;
+  border-radius: 50%;
+  background: conic-gradient(#7d2ae8 360deg, #ededed 1deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* deg это радиус заполнения */
+}
+.circular-progress::before{
+  content:"";
+  position:absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  width: 220px;
+  border-radius: 50%;
+  background-color: white;
+
 }
