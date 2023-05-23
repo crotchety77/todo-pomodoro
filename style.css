@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --accent: #EA5959
+}
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-image: url(image8.jpg);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body {
+
+  font-family: 'Ysabeau', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: normal;
+  /* background-color: var(--accent); */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+  /* margin: 5px; */
+
+}
+.todo{
+
+  padding: 32px;
+  background-color: white;
+  width: 90vh;
+  border-radius: 16px;
+  opacity: 70%;
+}
+.todo:hover{
+  background-position: left center;
+}
+#list-complete{
+  margin-top: 15px;
+}
+.todo__content {
+
+}
+.todo__title {
+}
+.todo__new {
+  --size: 50px;
+  display:flex;
+  margin: 16px 0px 32px;
+}
+.todo__new input {
+  margin-right: 16px;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 32px;
+  height: var(--size);
+  flex-grow: 0.1;
+}
+.todo__task-del,
+.todo__add {
+  cursor: pointer;
+  text-align: center;
+  line-height: calc(var(--size)*0.75);
+  width: var(--size);
+  height: var(--size);
+  border: 2px solid rgb(0, 0, 0, 0.6);
+  border-radius: 32px;
+  font-size: 30px;
+  font-weight: 200;
+}
+.todo__task {
+  display:flex;
+  align-items: center;
+  /* размер кнопки удаления */
+  --size: 40px;
+  min-height: 45px;
+  /* width: 100%; */
+  /* margin: 0px 5px 5px; */
+
+}
+
+.todo__task:hover .todo__task-del{
+  display:block;
+}
+.todo__checkbox {
+  margin-right: 16px;
+}
+.todo__checkbox input {
+  display:none;
+}
+
+.todo__checkbox div {
+  cursor: pointer;
+  --size: 28px;
+  height: var(--size);
+  width: var(--size);
+  border: 1px solid lightgray;
+  border-radius: 16px;
+  position: relative;
+}
+.todo__checkbox div::after {
+  content: '\2713';
+  /* content: 'U+FE0F'; */
+  position: absolute;
+  text-align: center;
+  display: none;
+  color:white;
+  left:0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.todo__task-completed .todo__task-text{
+  text-decoration: line-through;
+  color: gray;
+  /* background-color: lightblue; */
+}
+.todo__checkbox input:checked + div{
+    /* display: block; */
+    background-color: lightgray;
+    /* border: 1px solid white; */
+    /* display: block; */
+}
+.todo__checkbox input:checked + div::after{
+  display:block;
+}
+
+.todo__task-text {
+  cursor: default;
+  color: rgb(0, 0, 0, 1);
+  font-weight: 500;
+  max-width: 70%;
+    /* text-decoration: line-through; */
+}
+
+.todo__task-del {
+  display: none;
+  line-height: 28px;
+  /* padding-left: ; */
+  margin-left: auto;
+  margin-right: 10px;
+  font-size: 25px;
+}
+
+.todo__right-panel{
+  opacity: 100%;
+  display: flex;
+  margin-left:10px;
+  padding: 5px 5px 5px;
+  background-color: white;
+  /* width: 10vh; */
+  border-radius: 16px;
+  align-self: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap-reverse;
+  /* height: 35%; */
+  flex-direction: column;
+  margin-top: 5vh;
+  opacity: 70%;
+}
+
+.todo__pop-up-panel {
+  display: none;
+  /* position: fixed; */
+  /* display: flex; */
+  /* z-index: 1050; */
+  /* position: relative; */
+  border-radius: 16px;
+  margin: 40px;
+  height: 60%;
+  border: 2px solid;
+}
+/* Обводка иконок. */
+.todo__pomodoro-button{
+  /* display:flex; */
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgb(0, 0, 0, 0.6);
+  border-radius: 10px;
+  margin: 4px;
+  /* padding-right: 20px;
+  margin-right: 20px; */
+  /* flex-direction: row-reverse; */
+  /* margin-right: 10px; */
+  /* justify-items: center; */
+}
+/* Размер иконок для правой панели */
+.todo__pomodoro-icon{
+  width: 42px;
+  height: 42px;
+  margin: 2px;
+  /* flex-direction: column; */
+}
+/* Размер иконки выгрузки слишком большой. Пришлось уменьшить. */
+#icon_upload{
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+  /* left: auto; */
+  /* display: block; */
+}
+
+
+/* // Панель помидорки */
+.popup {
+  position: fixed;
+
+  /* padding: auto 0; */
+  /* display: flex;
+  align-items: center; 
+  justify-content: center; */
+  width: 50%;
+  /* transition: 0.3s; */
+  height: 45%;
+  /* border: 2px solid black; */
+  /* background-color: ; */
+  top: 47%;
+  left: 21%;
+  background-color: white;
+  border-radius: 16px;
+  opacity: 20%;
+  visibility: hidden;
+}
+.popup__body {
+  min-height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  /* margin: 0px 210px; */
+  /* Display none and display блок мы не можем анимировать */
+}
+.popup__content {
+  background-color: white;
+  /* opacity: 1; */
+  color: black;
+  border: 3px solid black;
+  padding: 20px 20px;
+}
+.popup__close {
+  font-size: 40px;
+  position: absolute;
+  text-decoration: none;
+  right:20px ;
+  top:0px;
+  cursor: pointer;
+}
+.popup__title {
+  font-size: 45px;
+}
+.popup__text {
+  font-size: 25px;
+}
+
+.popup-open{
+  /* color:red; */
+  /* background-color: green; */
+  opacity: 50%;
+  visibility: visible;
+}

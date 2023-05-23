@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>ToDo List</title>
+</head>
+<body>  
+
+
+
+    <div class="todo">
+      <div class="todo__content">
+
+        <h1 class="todo__title">Все задачи</h1>
+
+        <div class="todo__new">
+          <input id="new" type="text" placeholder="Новая задача" onkeydown="enter(this)">
+          <div id="add" class="todo__add">+</div>
+        </div>
+
+        <div id="list" class="todo__list">
+          <!-- Здесь невыполненные задачи -->
+        </div>
+        <div id="list-complete" class="todo__list">
+          <!-- Здесь выполненные задачи -->
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="todo__right-panel">
+      <div id="timer" class="todo__pomodoro-button">
+        <!-- иконку впихнуть и бордер вокруг -->
+        <img src="/icon_pomodoro.svg" alt="#" class="todo__pomodoro-icon">
+      </div>
+      <div class="todo__pomodoro-button">
+        <!-- иконку впихнуть и бордер вокруг -->
+        <img src="/icon_statistics.svg" alt="#" class="todo__pomodoro-icon">
+      </div>
+      <div class="todo__pomodoro-button">
+        <!-- иконку впихнуть и бордер вокруг -->
+        <img src="/icon_upload.svg" alt="#" id="icon_upload" class="todo__pomodoro-icon">
+      </div>
+    </div> 
+
+    <div id="popup" class="popup">
+      <div class="popup__body">
+        <div class="popup__content">
+          <a id="close-popup" href="#" class="popup__close">x</a>
+          <div class="popup__title"> Таймер помидорок </div>
+          <div class="popup__text"> Здесь должен быть таймер и 4 кнопочки</div>
+        </div>
+      </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
