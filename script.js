@@ -218,3 +218,25 @@ function saveToLocalStorage(){
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 }
+
+let circularProgress = document.querySelector('.circular-progress');
+let progressValue = document.querySelector('.progress-value');
+
+let progressStartValue = 100;
+let progressStartValueMinute = 25;
+    progressStartValueSecond = "00";
+// 100 => 100*3.6deg = 360
+// 1500 => 1500*0.24deg
+// 300
+let progressEndValue = 0
+    speed = 1000; // скорость 1 секунда
+
+let progress = setInterval(() =>{
+  progressStartValue--;
+  let progressStartValueMinute = Math.floor(progressStartValue / 60);
+  let progressStartValueSecond = progressStartValue % 60;
+  progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`
+  circularProgress.style.background = `conic-gradient(blue ${progressStartValue * 3.6}deg, #ededed 1deg)`
+
+  console.log(progressStartValue, progress*2);
+}, speed);
