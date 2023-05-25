@@ -5,10 +5,14 @@ const dom = {
   listcomplete: document.getElementById('list-complete'),
   timer: document.getElementById('timer'),
   popup: document.getElementById('popup'),
-  close_popup: document.getElementById('close-popup')
+  close_popup: document.getElementById('close-popup'),
+  button_back:document.getElementById('button_back'),
+  button_play:document.getElementById('button_play'),
+  button_next:document.getElementById('button_next'),
 }
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
+let time = [1500, 300, 1500, 300, 1500, 300, 1500, 300, 1800];
 
 // Из локал стораджа достаём списки
 if (localStorage.getItem('tasks') || (localStorage.getItem('completedTasks'))){
@@ -219,24 +223,56 @@ function saveToLocalStorage(){
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 }
 
-let circularProgress = document.querySelector('.circular-progress');
-let progressValue = document.querySelector('.progress-value');
+function startPomadoro(){
+  let circularProgress = document.querySelector('.circular-progress');
+  let progressValue = document.querySelector('.progress-value');
 
-let progressStartValue = 100;
-let progressStartValueMinute = 25;
-    progressStartValueSecond = "00";
-// 100 => 100*3.6deg = 360
-// 1500 => 1500*0.24deg
-// 300
-let progressEndValue = 0
-    speed = 1000; // скорость 1 секунда
+  let progressStartValue = 1500; //при 8:30 текст каким-то образом корёжит окружность
+  // let progressStartValueMinute = 24;
+  //     progressStartValueSecond = "59";
+  // 100 => 100*3.6deg = 360
+  // 1500 => 1500*0.24deg
+  // 300
+  let progressEndValue = 0;
+      speed = 1000; // скорость 1 секунда
 
-let progress = setInterval(() =>{
-  progressStartValue--;
-  let progressStartValueMinute = Math.floor(progressStartValue / 60);
-  let progressStartValueSecond = progressStartValue % 60;
-  progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`
-  circularProgress.style.background = `conic-gradient(blue ${progressStartValue * 3.6}deg, #ededed 1deg)`
+  let progress = setInterval(() =>{
+    progressStartValue--;
+    let progressStartValueMinute = Math.floor(progressStartValue / 60);
+    let progressStartValueSecond = progressStartValue % 60;
+    progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`;
+    // progressValue = `123`;
+    circularProgress.style.background = `conic-gradient(purple ${progressStartValue * 0.24}deg, #ededed 1deg)`;
 
-  console.log(progressStartValue, progress*2);
-}, speed);
+    // console.log(progressStartValue, progress*2);
+  }, speed);
+}
+dom.button_back.onclick = (event) => {
+  const target = event.target;
+  if (target.classList.contains('icon-reverse')){
+    console.log('123');
+  }
+}
+dom.button_play.onclick = (event) => {
+  const target = event.target;
+  if (target.classList.contains('icon-play')){
+    // снести icon-play и поставить icon pause
+    // изменить адресс svg
+    button_play.src = "/icon_pause.svg";
+    button_play.classList = "todo__pomodoro-icon icon-pause";
+    startPomadoro();
+    return;
+  }
+  if (target.classList.contains('icon-pause')){
+    button_play.src = "/icon_play.svg";
+    button_play.classList = "todo__pomodoro-icon icon-play";
+    return;
+  }
+}
+dom.button_next.onclick = (event) => {
+  const target = event.target;
+  if (target.classList.contains('icon-next')){
+    console.log('789');
+  }
+
+}

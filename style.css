@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ysabeau:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap');
 
 :root {
   --accent: #EA5959
@@ -210,6 +211,7 @@ body {
 }
 
 
+
 /* // Панель помидорки */
 .popup {
   position: fixed;
@@ -236,6 +238,8 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 40px 20px;
+  font-family: 'Open Sans', sans-serif;
+
   /* margin: 0px 210px; */
   /* Display none and display блок мы не можем анимировать */
 }
@@ -301,10 +305,12 @@ body {
   width: 250px;
   background-color: #f0ff;
   border-radius: 50%;
-  background: conic-gradient(#7d2ae8 3.6deg, #ededed 1deg);
+  background: conic-gradient(purple 360deg, #ededed 1deg);
   display: flex;
   justify-content: center;
   align-items: center;
+  /* margin: 0px; */
+  flex-direction: column;
   /* deg это радиус заполнения */
 }
 .circular-progress::before{
@@ -321,7 +327,79 @@ body {
 
 .progress-value{
   position: relative;
-  font-size: 60px;
-  font-weight: 500;
-  margin-bottom: 25px;
+  font-size: 50px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  top: 10px;
+  opacity: 70%;
+}
+
+.button__section{
+  display: flex;
+  flex-direction: row;
+  margin-left: -3px;
+}
+.no-border{
+  border: none;
+  /* border-radius: 10px; */
+  margin: 0px;
+  cursor: default;
+}
+.icon-reverse{
+  position: relative;
+  transform: rotate(180deg);
+  /* width: 34px;
+  height: 34px;
+  margin: 6px; */
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  top: -15px;
+  border: none;
+  /* border: 0px solid rgb(0, 0, 0, 0.6); */
+  opacity: 70%;
+}
+
+.icon-play{
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 12px;
+  border: none;
+  opacity: 70%;
+}
+
+.icon-pause{
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin: 6px;
+  border: none;
+  opacity: 70%;
+}
+.icon-pause:hover{
+  opacity: 100%;
+}
+
+.icon-next{
+  position: relative;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  align-items: center;
+  margin: 0px;
+  top: -12px;
+  left: -1px;
+  border: none;
+  /* border: 2px solid rgb(0, 0, 0, 0.6); */
+  opacity: 70%;
+}
+.icon-next:hover{
+  opacity: 100%;
+}
+.icon-reverse:hover{
+  opacity: 100%;
+}
+.icon-play:hover{
+  opacity: 100%;
 }
