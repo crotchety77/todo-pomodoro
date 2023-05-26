@@ -3,6 +3,7 @@ const dom = {
   add: document.getElementById('add'),
   list: document.getElementById('list'),
   listcomplete: document.getElementById('list-complete'),
+  liststar: document.getElementById('list-star'),
   timer: document.getElementById('timer'),
   popup: document.getElementById('popup'),
   close_popup: document.getElementById('close-popup'),
@@ -13,14 +14,20 @@ const dom = {
 }
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
+let starTasks = [] // Избранные заметки
 let time = [1500, 300, 1500, 300, 1500, 300, 1500, 300, 1800];
 
 // Из локал стораджа достаём списки
 if (localStorage.getItem('tasks') || (localStorage.getItem('completedTasks'))){
+
+  starTasks = JSON.parse(localStorage.getItem('starTasks'));
   tasks = JSON.parse(localStorage.getItem('tasks'));
   completedTasks = JSON.parse(localStorage.getItem('completedTasks'));
+
+  tasksRender(starTasks);
   tasksRender(tasks);
   tasksRender(completedTasks);
+
 }
 
 // Отслеживаем Enter при заполнении задачи
@@ -52,10 +59,14 @@ function addTask(text, array) {
   let task = {
     id: timestamp,
     text,
-    isComplete: false
+    isComplete: false,
+    isStar: false
   }
   if (array == completedTasks){
     task.isComplete = true;
+  }
+  if (array == starTasks){
+    task.isStar = true;
   }
   //Добавление задачи в массив
   array.push(task);
@@ -71,7 +82,10 @@ function tasksRender(array){
       ? 'todo__task todo__task-completed' 
       : 'todo__task';
     const checked = task.isComplete ? 'checked' : '';
-    
+    const starChecked = task.isStar ? 'star-active' : '';
+    // if (array == starTasks){
+    //   let activeStar = "123";
+    // }
     const htmlTask = `
     <div id="${task.id}" class="${cls}">
       <label class="todo__checkbox">
@@ -82,7 +96,7 @@ function tasksRender(array){
         ${task.text}
       </div>
       
-      <div class="todo__task-star">
+      <div class="todo__task-star ${starChecked}">
         <img src="/icon_star1.svg" alt="#" class="todo__pomodoro-icon icon-star">
       </div>
 
@@ -99,7 +113,10 @@ function tasksRender(array){
   if (array == tasks){
     dom.list.innerHTML = htmlList;
   }
-  else {
+  if (array == starTasks){
+    dom.liststar.innerHTML = htmlList;
+  }
+  if (array == completedTasks) {
     dom.listcomplete.innerHTML = htmlList;
   }
   // Сохранение в локал storage
@@ -138,27 +155,46 @@ dom.list.onclick = (event) => {
   if (target.classList.contains('todo__checkbox-label')) {
     const task = target.parentElement.parentElement;
     const taskID = task.getAttribute('id');
-    // const list = task.parentElement;
-    const text = target.parentElement.nextElementSibling.innerHTML; 
-    // const textt = text.innerHTML;
-    // console.log(text);
 
-    changeTaskStatus(taskID, tasks);
+    const text = target.parentElement.nextElementSibling.innerHTML; 
+
+    // changeTaskStatus(taskID, tasks);
     
     deleteTask(taskID, tasks);
     addTask(text, completedTasks);
 
     tasksRender(completedTasks);
-    // movingCompletedTasks(taskID, tasks);
     tasksRender(tasks);
 
-    // tasksRender(completedTasks);
   }
+  // Добавление избранных задач в первый список
   if (target.classList.contains('todo__task-del')){
     const task = target.parentElement;
+    console.log(task);
     const taskID = task.getAttribute('id');
+    console.log(taskID);
     deleteTask(taskID, tasks);
     tasksRender(tasks);
+    // tasksRender(completedTasks);
+    // console.log(length(tasks));
+  }
+  if (target.classList.contains('icon-star')){
+    // console.log('123');
+    const task = target.parentElement.parentElement;
+    console.log(task);
+    const taskID = task.getAttribute('id');
+    const text = target.parentElement.previousElementSibling.innerHTML; 
+
+    changeTaskStarStatus(taskID, tasks);
+    // console.log(text);
+    deleteTask(taskID, tasks);
+    console.log(taskID);
+    console.log(123);
+    addTask(text, starTasks);
+
+    tasksRender(tasks);
+    tasksRender(starTasks);
+
     // tasksRender(completedTasks);
     // console.log(length(tasks));
   }
@@ -181,12 +217,55 @@ dom.listcomplete.onclick = (event) => {
 
   // console.log(target);
 }
+dom.liststar.onclick = (event) => {
+  const target = event.target;
+  if (target.classList.contains('todo__task-del')){
+    const task = target.parentElement;
+    const taskID = task.getAttribute('id');
+    deleteTask(taskID, starTasks);
+    tasksRender(starTasks);
+    // tasksRender(completedTasks);
+    // console.log(length(tasks));
+  }
+  // два раза надо подняться, чтобы получить id таска, который зачеркнём
+
+  // console.log(target);
+  if (target.classList.contains('icon-star')){
+    // console.log('123');
+    const task = target.parentElement.parentElement;
+    const taskID = task.getAttribute('id');
+    const text = target.parentElement.previousElementSibling.innerHTML; 
+
+    // console.log(text);
+    deleteTask(taskID, starTasks);
+
+    addTask(text, tasks);
+
+    tasksRender(tasks);
+    tasksRender(starTasks);
+
+    // tasksRender(completedTasks);
+    // console.log(length(tasks));
+  }
+}
+
 
 // Зачеркивание текста
-function changeTaskStatus(id, array){
+// function changeTaskStatus(id, array){
+//   array.forEach((task) => {
+//     if (task.id == id){
+//       // task.isComplete = !task.isComplete;
+
+//       // task.isComplete = status;
+//     }
+//   });
+// }
+
+function changeTaskStarStatus(id, array){
   array.forEach((task) => {
+    console.log(task.id, id);
     if (task.id == id){
-      task.isComplete = !task.isComplete;
+      task.isStar = !task.isStar;
 
       // task.isComplete = status;
     }
@@ -230,6 +309,7 @@ function deleteTask(id, array){
 function saveToLocalStorage(){
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+  localStorage.setItem('starTasks', JSON.stringify(starTasks));
 }
 //
 

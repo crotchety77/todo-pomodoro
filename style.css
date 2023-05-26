@@ -44,9 +44,11 @@ body {
 .todo:hover{
   background-position: left center;
 }
-#list-complete{
-  margin-top: 15px;
+#list-star,
+#list{
+  margin-bottom: 15px;
 }
+
 .todo__content {
 }
 .todo__title {
@@ -82,6 +84,7 @@ body {
   /* размер кнопки удаления */
   --size: 40px;
   min-height: 45px;
+  /* max-width: 100px; */
   /* width: 100%; */
   /* margin: 0px 5px 5px; */
 
@@ -89,9 +92,11 @@ body {
 
 .todo__task:hover .todo__task-del {
   display:block;
+
 }
 .todo__task:hover .todo__task-star {
   display:block;
+  margin-right: 4px;
 }
 .todo__checkbox {
   margin-right: 16px;
@@ -110,6 +115,7 @@ body {
   position: relative;
 }
 .todo__checkbox div::after {
+  font-size: 20px; /* Размер галки */
   content: '\2713';
   /* content: 'U+FE0F'; */
   position: absolute;
@@ -140,13 +146,16 @@ body {
   cursor: default;
   color: rgb(0, 0, 0, 1);
   font-weight: 600;
-  max-width: 70%;
+  font-size: 30px; /*Вот здесь менять размер шрифта при медиазапросе*/
+  max-width: 60%;
+  overflow-wrap: break-word;
     /* text-decoration: line-through; */
 }
 
 
 .todo__task-del {
   display: none;
+  /* opacity: 0%; */
   line-height: 28px;
   /* padding-left: ; */
   /* margin-left: auto; */
@@ -226,6 +235,14 @@ body {
 width: 30px;
 height: 20px;
 opacity: 40%;
+}
+.star-active{
+  display: block;
+  background-color: yellow;
+  margin-right: 1.8em;
+}
+.star-active:hover{
+  margin-right: 4px;
 }
 .icon-star:hover{
   opacity: 100%;
