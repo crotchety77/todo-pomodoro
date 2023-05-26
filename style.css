@@ -22,9 +22,9 @@ html {
 body {
 
   font-family: 'Ysabeau', sans-serif;
-  font-size: 18px;
-  font-weight: 300;
-  font-style: normal;
+  font-size: 30px;
+  font-weight: 100;
+  /* font-style: normal; */
   /* background-color: var(--accent); */
   height: 100vh;
   display: flex;
@@ -48,7 +48,6 @@ body {
   margin-top: 15px;
 }
 .todo__content {
-
 }
 .todo__title {
 }
@@ -88,7 +87,10 @@ body {
 
 }
 
-.todo__task:hover .todo__task-del{
+.todo__task:hover .todo__task-del {
+  display:block;
+}
+.todo__task:hover .todo__task-star {
   display:block;
 }
 .todo__checkbox {
@@ -137,20 +139,27 @@ body {
 .todo__task-text {
   cursor: default;
   color: rgb(0, 0, 0, 1);
-  font-weight: 500;
+  font-weight: 600;
   max-width: 70%;
     /* text-decoration: line-through; */
 }
+
 
 .todo__task-del {
   display: none;
   line-height: 28px;
   /* padding-left: ; */
-  margin-left: auto;
+  /* margin-left: auto; */
   margin-right: 10px;
   font-size: 25px;
-}
 
+}
+.todo__task-del:hover{
+  /* color:red; */
+  /* font-style: bold; */
+  font-weight: 700;
+  /* font-size: 30px; */
+}
 .todo__right-panel{
   opacity: 100%;
   display: flex;
@@ -200,6 +209,26 @@ body {
   height: 42px;
   margin: 2px;
   /* flex-direction: column; */
+}
+
+.todo__task-star {
+  display: none;
+  line-height: 26px; 
+  cursor: pointer;
+  border: 2px solid rgb(0, 0, 0, 0.6);
+  border-radius: 32px;
+  margin-left: auto;
+  margin-right: 5px;
+
+  padding: 5px;
+}
+.icon-star{
+width: 30px;
+height: 20px;
+opacity: 40%;
+}
+.icon-star:hover{
+  opacity: 100%;
 }
 /* Размер иконки выгрузки слишком большой. Пришлось уменьшить. */
 #icon_upload{
@@ -303,7 +332,7 @@ body {
   position: relative;
   height: 250px;
   width: 250px;
-  background-color: #f0ff;
+  /* background-color: #f0ff; */
   border-radius: 50%;
   background: conic-gradient(red 360deg, #ededed 1deg);
   display: flex;
@@ -353,7 +382,7 @@ body {
   margin: 6px; */
   width: 50px;
   height: 50px;
-  padding: 14Кpx;
+  padding: 14px;
   top: -15px;
   border: none;
   /* border: 0px solid rgb(0, 0, 0, 0.6); */

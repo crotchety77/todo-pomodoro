@@ -81,9 +81,17 @@ function tasksRender(array){
       <div id="text-id" class="todo__task-text"> 
         ${task.text}
       </div>
+      
+      <div class="todo__task-star">
+        <img src="/icon_star1.svg" alt="#" class="todo__pomodoro-icon icon-star">
+      </div>
+
       <div class="todo__task-del">
         x
       </div>
+
+
+
     </div>
     `
     htmlList = htmlTask + htmlList;
