@@ -7,8 +7,9 @@ const dom = {
   popup: document.getElementById('popup'),
   close_popup: document.getElementById('close-popup'),
   button_back:document.getElementById('button_back'),
-  button_play:document.getElementById('button_play'),
   button_next:document.getElementById('button_next'),
+  button_play:document.getElementById('button_play'),
+  time_next:document.getElementById('time_next')
 }
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
@@ -222,57 +223,191 @@ function saveToLocalStorage(){
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 }
+//
 
-function startPomadoro(){
-  let circularProgress = document.querySelector('.circular-progress');
-  let progressValue = document.querySelector('.progress-value');
+// let circularProgress = document.querySelector('.circular-progress');
+// let progressValue = document.querySelector('.progress-value');
+// let interval;
 
-  let progressStartValue = 1500; //при 8:30 текст каким-то образом корёжит окружность
+// let timeoutID = null;
+
+// function start(){
+//   if (timeoutID){
+//     return;
+//   }
+//   const mtime = 1500;
+//   const run = () =>{
+//     const time = -mtime
+//   }
+// }
+
+// dom.button_play.addEventListener('click', () =>{
+
+//   // let progressStartValueMinute = Math.floor(progressStartValue / 60);
+//   // let progressStartValueSecond = progressStartValue % 60;
+
+//   let progressStartValue = 1500;
+//   clearInterval(interval);
+//   setInterval(start, 1000, progressStartValue);
+//   console.log(111);
+// });
+
+// function start(progressStartValue){
+//   // let progressStartValue = 1500;
+//   console.log(progressStartValue);
+//   if (progressStartValue > 0) {
+//     progressStartValue--;
+//     console.log(progressStartValue);
+//   }
+
+
+  // let progressStartValueMinute = Math.floor(progressStartValue / 60);
+  // let progressStartValueSecond = progressStartValue % 60;
+  // progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`;
+  // circularProgress.style.background = `conic-gradient(purple ${progressStartValue * 0.24}deg, #ededed 1deg)`;
+//
+
+let circularProgress = document.querySelector('.circular-progress');
+let progressValue = document.querySelector('.progress-value');
+
+function startPomadoro(value, timeArrayValue){
+  let inter;
+  let progressStartValue = value;
   // let progressStartValueMinute = 24;
   //     progressStartValueSecond = "59";
   // 100 => 100*3.6deg = 360
   // 1500 => 1500*0.24deg
   // 300
   let progressEndValue = 0;
-      speed = 1000; // скорость 1 секунда
+  let speed = 1000; // скорость 1 секунда
+  let deg; // градусы отклонения для радиального таймера
+  let color;
+  if (timeArrayValue == 1500){
+    deg = 0.24;
+    color = 'red';
+  }
+  if (timeArrayValue == 300){
+    deg = 1.2;
+    color = 'green';
+  }
+  if (timeArrayValue == 1800){
+    deg = 0.2;
+    color = 'blue';
+  }
+  let deg25;
+  let deg5;
+  let deg30;
 
-  let progress = setInterval(() =>{
+  inter = setInterval(() =>{
     progressStartValue--;
     let progressStartValueMinute = Math.floor(progressStartValue / 60);
     let progressStartValueSecond = progressStartValue % 60;
     progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`;
     // progressValue = `123`;
-    circularProgress.style.background = `conic-gradient(purple ${progressStartValue * 0.24}deg, #ededed 1deg)`;
+    circularProgress.style.background = `conic-gradient(${color} ${progressStartValue * deg}deg, #ededed 1deg)`;
 
     // console.log(progressStartValue, progress*2);
+    // console.log(progress);
   }, speed);
+  return inter;
 }
-dom.button_back.onclick = (event) => {
-  const target = event.target;
-  if (target.classList.contains('icon-reverse')){
-    console.log('123');
-  }
-}
+let intervalID;
+let timeArray = [1500, 300, 1500, 300, 1500, 300, 1500, 300, 1800];
+let cnt = 0; // проходить будем по массиву
+
+let timeCurrent = timeArray[cnt];
+
+
+
 dom.button_play.onclick = (event) => {
   const target = event.target;
+  // console.log(target);
   if (target.classList.contains('icon-play')){
+    // console.log(target);
     // снести icon-play и поставить icon pause
     // изменить адресс svg
     button_play.src = "/icon_pause.svg";
     button_play.classList = "todo__pomodoro-icon icon-pause";
-    startPomadoro();
-    return;
+    // if ()
+    intervalID = startPomadoro(timeCurrent, timeArray[cnt]);
+    console.log(timeArray[cnt]);
+    // console.log(123); 
+    // (target.classList.contains('icon-pause'))
   }
-  if (target.classList.contains('icon-pause')){
+  else if (target.classList.contains('icon-pause')){
+    // console.log('хочу запаузить', intervalID);
     button_play.src = "/icon_play.svg";
     button_play.classList = "todo__pomodoro-icon icon-play";
-    return;
+    // console.log(intervalID);
+    clearInterval(intervalID);
+    let timeRemaining = progressValue.textContent;
+    let numbers = timeRemaining.split(':');
+    let minute = numbers[0];
+    let seconds = numbers[1];
+    console.log(numbers);
+    console.log(numbers[0], numbers[1]);
+    timeCurrent = Number(minute)*60 + Number(seconds);
   }
+  // console.log(intervalID);
 }
 dom.button_next.onclick = (event) => {
+  clearInterval(intervalID);
   const target = event.target;
   if (target.classList.contains('icon-next')){
-    console.log('789');
+    if (cnt < 8){
+    cnt++;
+    }
+    else{
+      cnt = 0;
+    }
+    console.log(cnt);
+    timeCurrent = timeArray[cnt];
+
+    button_play.src = "/icon_play.svg";
+    button_play.classList = "todo__pomodoro-icon icon-play";
+    // console.log(intervalID);
+    clearInterval(intervalID);
+    if (timeCurrent == 1500){
+      circularProgress.style.background = `conic-gradient(red 360deg, #ededed 1deg)`;
+      time_next.textContent= "25:00";
+    }
+    if (timeCurrent == 300){
+      circularProgress.style.background = `conic-gradient(green 360deg, #ededed 1deg)`;
+      time_next.textContent= "5:00";
+    }    
+    if (timeCurrent == 1800){
+      circularProgress.style.background = `conic-gradient(blue 360deg, #ededed 1deg)`;
+      time_next.textContent = "30:00";
+    }
+
+    console.log(timeCurrent);
   }
 
+
+}
+dom.button_back.onclick = (event) => {
+  const target = event.target;
+  if (target.classList.contains('icon-reverse')){
+    
+    timeCurrent = timeArray[cnt];
+
+    button_play.src = "/icon_play.svg";
+    button_play.classList = "todo__pomodoro-icon icon-play";
+    // console.log(intervalID);
+    clearInterval(intervalID);
+
+    if (timeCurrent == 1500){
+      circularProgress.style.background = `conic-gradient(red 360deg, #ededed 1deg)`;
+      time_next.textContent= "25:00";
+    }
+    if (timeCurrent == 300){
+      circularProgress.style.background = `conic-gradient(green 360deg, #ededed 1deg)`;
+      time_next.textContent= "5:00";
+    }    
+    if (timeCurrent == 1800){
+      circularProgress.style.background = `conic-gradient(blue 360deg, #ededed 1deg)`;
+      time_next.textContent = "30:00";
+    }
+  }
+  // надо нажать паузу
 }
