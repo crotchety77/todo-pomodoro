@@ -100,7 +100,7 @@ function tasksRender(array){
       </div>
       
       <div class="todo__task-star ${starChecked}">
-        <img src="/icon_star1.svg" alt="#" class="todo__pomodoro-icon icon-star">
+        <img src="/icons/icon_star1.svg" alt="#" class="todo__pomodoro-icon icon-star">
       </div>
 
       <div class="todo__task-del">
@@ -436,7 +436,7 @@ dom.button_play.onclick = (event) => {
     // console.log(target);
     // снести icon-play и поставить icon pause
     // изменить адресс svg
-    button_play.src = "/icon_pause.svg";
+    button_play.src = "/icons/icon_pause.svg";
     button_play.classList = "todo__pomodoro-icon icon-pause";
     // if ()
     intervalID = startPomadoro(timeCurrent, timeArray[cnt]);
@@ -446,7 +446,7 @@ dom.button_play.onclick = (event) => {
   }
   else if (target.classList.contains('icon-pause')){
     // console.log('хочу запаузить', intervalID);
-    button_play.src = "/icon_play.svg";
+    button_play.src = "/icons/icon_play.svg";
     button_play.classList = "todo__pomodoro-icon icon-play";
     // console.log(intervalID);
     clearInterval(intervalID);
@@ -473,7 +473,7 @@ dom.button_next.onclick = (event) => {
     console.log(cnt);
     timeCurrent = timeArray[cnt];
 
-    button_play.src = "/icon_play.svg";
+    button_play.src = "/icons/icon_play.svg";
     button_play.classList = "todo__pomodoro-icon icon-play";
     // console.log(intervalID);
     clearInterval(intervalID);
@@ -501,7 +501,7 @@ dom.button_back.onclick = (event) => {
     
     timeCurrent = timeArray[cnt];
 
-    button_play.src = "/icon_play.svg";
+    button_play.src = "/icons/icon_play.svg";
     button_play.classList = "todo__pomodoro-icon icon-play";
     // console.log(intervalID);
     clearInterval(intervalID);
