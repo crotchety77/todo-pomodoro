@@ -13,7 +13,8 @@ const dom = {
   button_back:document.getElementById('button_back'),
   button_next:document.getElementById('button_next'),
   button_play:document.getElementById('button_play'),
-  time_next:document.getElementById('time_next')
+  time_next:document.getElementById('time_next'),
+  countTime:document.getElementById('countTime')
 }
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
@@ -466,9 +467,14 @@ dom.button_next.onclick = (event) => {
   if (target.classList.contains('icon-next')){
     if (cnt < 8){
     cnt++;
+    if (cnt < 1) dom.countTime.textContent = `1/4`;
+    if ((2 <= cnt) && cnt < 3) dom.countTime.textContent = `2/4`;
+    if ((4 <= cnt) && cnt < 5) dom.countTime.textContent = `3/4`;    
+    if ((6 <= cnt) && cnt < 8) dom.countTime.textContent = `4/4`;
     }
     else{
       cnt = 0;
+      dom.countTime.textContent = `1/4`;
     }
     console.log(cnt);
     timeCurrent = timeArray[cnt];
