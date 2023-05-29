@@ -8,9 +8,6 @@
   <title>ToDo List</title>
 </head>
 <body>  
-
-
-
     <div class="todo">
       <div class="todo__content">
 
@@ -45,6 +42,10 @@
       <div class="todo__pomodoro-button">
         <!-- иконку впихнуть и бордер вокруг -->
         <img src="/icon_upload.svg" alt="#" id="icon_upload" class="todo__pomodoro-icon">
+      </div>
+      <div id="settings" class="todo__pomodoro-button">
+        <!-- иконку впихнуть и бордер вокруг -->
+        <img src="/icon_settings5.svg" alt="#" id="icon_settings" class="todo__pomodoro-icon">
       </div>
     </div> 
 
@@ -89,6 +90,17 @@
       </div>
     </div>
 
+    <div id="popupSettings" class="popup">
+      <div class="popup__body">
+        <div class="popup__content">
+          <a id="close-popupSettings" href="#" class="popup__close">x</a>
+          <div class="popup__title"> Настройки </div>
+          <div class="popup__text">Здесь должна быть тёмная тема</div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
   <script src="script.js"></script>
 </body>
 </html>

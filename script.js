@@ -5,8 +5,11 @@ const dom = {
   listcomplete: document.getElementById('list-complete'),
   liststar: document.getElementById('list-star'),
   timer: document.getElementById('timer'),
+  settings: document.getElementById('settings'),
   popup: document.getElementById('popup'),
+  popupSettings: document.getElementById('popupSettings'),
   close_popup: document.getElementById('close-popup'),
+  close_popupSettings: document.getElementById('close-popupSettings'),
   button_back:document.getElementById('button_back'),
   button_next:document.getElementById('button_next'),
   button_play:document.getElementById('button_play'),
@@ -119,34 +122,53 @@ function tasksRender(array){
   if (array == completedTasks) {
     dom.listcomplete.innerHTML = htmlList;
   }
-  // Сохранение в локал storage
+
   saveToLocalStorage();  
-  // dom.listcomplete.innerHTML = htmlList;
 }
 
+// POPUP POMADORO TIMER
 dom.timer.onclick= (event) =>{
   const target = event.target;
   if (target.classList.contains('todo__pomodoro-icon')) {
-    // можно добраться до popup с помощью выхода родителя и некст элемента
-    let t = target.parentElement.parentElement.nextElementSibling;
-    // можно задать переменную для id
+
     if (popup.className == "popup popup-open"){
       popup.className = "popup";
       return;
     }
+    // Список закрывающихся других попапов при открытии этого
+    popupSettings.className = "popup";
+    //
     popup.className = "popup popup-open";
- 
-    // dom.popup.innerHTML = `<div id="popup" class="popup popup-open">`;
-    // console.log(dom.popup);
+
   }
 }
-dom.close_popup.onclick= (event) =>{
+dom.close_popup.onclick = (event) =>{
   const target = event.target;
   if (target.classList.contains('popup__close')) {
 
     popup.className = "popup";
-    // dom.popup.innerHTML = `<div id="popup" class="popup popup-open">`;
-    // console.log(dom.popup);
+
+  }
+}
+// POPUP SETTINGS
+dom.settings.onclick= (event) =>{
+  const target = event.target;
+  if (target.classList.contains('todo__pomodoro-icon')) {
+    if (popupSettings.className == "popup popup-open"){
+      popupSettings.className = "popup";
+      return;
+    }
+    // Список закрывающихся других попапов при открытии этого
+    popup.className = "popup";
+    popupSettings.className = "popup popup-open";
+  }
+}
+dom.close_popupSettings.onclick= (event) =>{
+  const target = event.target;
+  if (target.classList.contains('popup__close')) {
+
+    popupSettings.className = "popup";
+
   }
 }
 // Считывание ивентов с листа

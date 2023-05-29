@@ -256,7 +256,11 @@ opacity: 40%;
   /* display: block; */
 }
 
-
+#icon_settings{
+  width: 40px;
+  height:  40px;
+  margin: 3px;
+}
 
 /* // Панель помидорки */
 .popup {
