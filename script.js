@@ -14,7 +14,10 @@ const dom = {
   button_next:document.getElementById('button_next'),
   button_play:document.getElementById('button_play'),
   time_next:document.getElementById('time_next'),
-  countTime:document.getElementById('countTime')
+  countTime:document.getElementById('countTime'),
+  selectHeader:document.querySelectorAll('.select__header'),
+
+  selectBody:document.getElementById('select__body')
 }
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
@@ -527,3 +530,56 @@ dom.button_back.onclick = (event) => {
   }
   // надо нажать паузу
 }
+
+function listRender(array, array2){
+  let htmlList = ''; 
+
+
+  array.forEach((task) => {
+    const htmlTask = `
+    <div class="select__item">${task.text}</div>`
+    htmlList = htmlTask + htmlList;
+  })
+  array2.forEach((task) => {
+    const htmlTask = `
+    <div class="select__item">${task.text}</div>`
+    htmlList = htmlTask + htmlList;
+  })
+  dom.selectBody.innerHTML = htmlList;
+}
+
+dom.selectHeader.forEach(element => {
+  element.addEventListener('click', function(){
+    listRender(tasks, starTasks);
+    // listRender(tasks);
+    this.parentElement.classList.toggle('is-active')
+  })
+});
+// selectItem = document.querySelectorAll('.select__item');
+dom.selectBody.onclick = (event) => {
+  const target = event.target;
+  // console.log(target);
+  if (target.classList.contains('select__item')){
+    let selectSection = target.closest('.select__section');
+    let current = selectSection.querySelector('.select__current');
+    current.innerText = target.innerText;
+    selectSection.classList.remove('is-active');  
+    // this.closest('.select__section').
+    // .querySelector('.selector__current') = 
+    // target.innerText;
+  }
+  
+  // this.closest('.select__section').querySelector('.selector__current') = this.innerText;
+
+}
+    
+// dom.selectBody.forEach(element => {
+//   element.addEventListener('click', function(){
+//     console.log(123);
+    
+//     // this.parentElement.previousElementSibling.firstElementChild.innerText = this.innerText;
+
+//   })
+// });
+
+// select();
