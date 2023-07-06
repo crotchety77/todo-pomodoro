@@ -282,9 +282,9 @@ opacity: 40%;
   opacity: 50%;
   visibility: hidden;
 }
-#popup{
+/* #popup{
   visibility: visible;
-}
+} */
 .popup__body {
   min-height: 60%;
   width: 100%;
