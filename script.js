@@ -16,9 +16,9 @@ const dom = {
   time_next:document.getElementById('time_next'),
   countTime:document.getElementById('countTime'),
   selectHeader:document.querySelectorAll('.select__header'),
-
   selectBody:document.getElementById('select__body')
 }
+
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
 let starTasks = [] // Избранные заметки
@@ -49,7 +49,7 @@ function enter(text){
   }
 }
 
-// Отслеживаем клик по кнопке добавить
+// Отслеживаем ввод задачи по клику по кнопке добавить
 dom.add.onclick = () => {
   const task = dom.new.value;
   if (task) {
@@ -60,7 +60,7 @@ dom.add.onclick = () => {
 }
 
 //Функция добавления задачи
-function addTask(text, array) {
+function addTask(text, array, flagStar = 0) {
   // Создание уникального ID
   const timestamp = Date.now();
   let task = {
@@ -72,12 +72,12 @@ function addTask(text, array) {
   if (array == completedTasks){
     task.isComplete = true;
   }
-  if (array == starTasks){
+  // flagStar нужен для обработки звёзд избранных задач в список выполненных
+  if ((array == starTasks) || (flagStar == 1)){
     task.isStar = true;
   }
   //Добавление задачи в массив
   array.push(task);
-
 }
 
 // Отрисовывание задач из массива задач
@@ -90,9 +90,6 @@ function tasksRender(array){
       : 'todo__task';
     const checked = task.isComplete ? 'checked' : '';
     const starChecked = task.isStar ? 'star-active' : '';
-    // if (array == starTasks){
-    //   let activeStar = "123";
-    // }
     const htmlTask = `
     <div id="${task.id}" class="${cls}">
       <label class="todo__checkbox">
@@ -126,7 +123,7 @@ function tasksRender(array){
   if (array == completedTasks) {
     dom.listcomplete.innerHTML = htmlList;
   }
-
+  listRender(tasks, starTasks);
   saveToLocalStorage();  
 }
 
@@ -175,17 +172,17 @@ dom.close_popupSettings.onclick= (event) =>{
 
   }
 }
-// Считывание ивентов с листа
+// Считывание событий (добавление в выполненные/удаление) со списка невыполненных задач
 dom.list.onclick = (event) => {
   const target = event.target;
+  // Добавление невыполненной задачи в выполненнуй задачу в comlpeteTasks и отрисовывание внизу
   if (target.classList.contains('todo__checkbox-label')) {
+
     const task = target.parentElement.parentElement;
     const taskID = task.getAttribute('id');
-
     const text = target.parentElement.nextElementSibling.innerHTML; 
+    console.log("Вы нажали на кнопку выполнения задачи");
 
-    // changeTaskStatus(taskID, tasks);
-    
     deleteTask(taskID, tasks);
     addTask(text, completedTasks);
 
@@ -193,76 +190,88 @@ dom.list.onclick = (event) => {
     tasksRender(tasks);
 
   }
-  // Добавление избранных задач в первый список
+  // Удаление невыполненной задачи 
   if (target.classList.contains('todo__task-del')){
     const task = target.parentElement;
-    console.log(task);
+    console.log("Вы решили удалить невыполненную задачу");
     const taskID = task.getAttribute('id');
-    console.log(taskID);
     deleteTask(taskID, tasks);
+    deleteTask(taskID, completedTasks);
     tasksRender(tasks);
-    // tasksRender(completedTasks);
-    // console.log(length(tasks));
+    tasksRender(completedTasks);
   }
+  // Добавление невыполненной задачи в список избранного
   if (target.classList.contains('icon-star')){
-    // console.log('123');
+
     const task = target.parentElement.parentElement;
-    console.log(task);
+
     const taskID = task.getAttribute('id');
     const text = target.parentElement.previousElementSibling.innerHTML; 
 
     changeTaskStarStatus(taskID, tasks);
-    // console.log(text);
+
     deleteTask(taskID, tasks);
-    console.log(taskID);
-    console.log(123);
     addTask(text, starTasks);
 
     tasksRender(tasks);
     tasksRender(starTasks);
 
-    // tasksRender(completedTasks);
-    // console.log(length(tasks));
   }
-  // два раза надо подняться, чтобы получить id таска, который зачеркнём
 
-  // console.log(target);
 }
-
+// Считывание событий (добавление в выполненные/удаление) со списка выполненных задач
 dom.listcomplete.onclick = (event) => {
   const target = event.target;
+  // Удаление выполненной задачи
   if (target.classList.contains('todo__task-del')){
     const task = target.parentElement;
     const taskID = task.getAttribute('id');
     deleteTask(taskID, completedTasks);
     tasksRender(completedTasks);
-    // tasksRender(completedTasks);
-    // console.log(length(tasks));
-  }
-  // два раза надо подняться, чтобы получить id таска, который зачеркнём
 
-  // console.log(target);
+  }
+  // Снятие выполнения задачи и возвращение в список невыполненных
+  if (target.classList.contains('todo__checkbox-label')) {
+
+    const task = target.parentElement.parentElement;
+    const taskID = task.getAttribute('id');
+    const text = target.parentElement.nextElementSibling.innerHTML; 
+
+    // Проверка есть ли у выполненной задачи при снятии галочки "Звёздочка"
+    if (target.parentElement.nextElementSibling.nextElementSibling.classList.contains('star-active')){
+      deleteTask(taskID, completedTasks);
+      addTask(text, starTasks);
+  
+      tasksRender(completedTasks);
+      tasksRender(starTasks);
+    }
+    else{
+      deleteTask(taskID, completedTasks);
+      addTask(text, tasks);
+  
+      tasksRender(completedTasks);
+      tasksRender(tasks);
+    }
+  }
 }
+
+// Считывание событий (добавление в выполненные/удаление) со списка избранных задач
 dom.liststar.onclick = (event) => {
   const target = event.target;
+  // Удаление избранной задачи навсегда
   if (target.classList.contains('todo__task-del')){
     const task = target.parentElement;
     const taskID = task.getAttribute('id');
     deleteTask(taskID, starTasks);
     tasksRender(starTasks);
-    // tasksRender(completedTasks);
-    // console.log(length(tasks));
   }
-  // два раза надо подняться, чтобы получить id таска, который зачеркнём
-
-  // console.log(target);
+  // Снятие галочки "Добавить в избранное" и перемещение в невыполненные задачи
   if (target.classList.contains('icon-star')){
-    // console.log('123');
+
     const task = target.parentElement.parentElement;
     const taskID = task.getAttribute('id');
     const text = target.parentElement.previousElementSibling.innerHTML; 
 
-    // console.log(text);
     deleteTask(taskID, starTasks);
 
     addTask(text, tasks);
@@ -270,30 +279,30 @@ dom.liststar.onclick = (event) => {
     tasksRender(tasks);
     tasksRender(starTasks);
 
-    // tasksRender(completedTasks);
-    // console.log(length(tasks));
+
+  }
+  // Добавление невыполнненое избранной задачи в нижний список выполненных
+  if (target.classList.contains('todo__checkbox-label')) {
+    const task = target.parentElement.parentElement;
+    const taskID = task.getAttribute('id');
+    const text = target.parentElement.nextElementSibling.innerHTML; 
+    console.log("Вы нажали на кнопку выполнения задачи");
+    let flagStar = 1; // Чтобы в списке выполненных задач были выполненные задачи со звёздами
+
+    deleteTask(taskID, starTasks);
+    addTask(text, completedTasks, flagStar);
+
+    tasksRender(completedTasks);
+    tasksRender(starTasks);
+
   }
 }
-
-
-// Зачеркивание текста
-// function changeTaskStatus(id, array){
-//   array.forEach((task) => {
-//     if (task.id == id){
-//       // task.isComplete = !task.isComplete;
-
-//       // task.isComplete = status;
-//     }
-//   });
-// }
 
 function changeTaskStarStatus(id, array){
   array.forEach((task) => {
     console.log(task.id, id);
     if (task.id == id){
       task.isStar = !task.isStar;
-
-      // task.isComplete = status;
     }
   });
 }
@@ -308,78 +317,13 @@ function deleteTask(id, array){
   });
 }
 
-// function movingCompletedTasks(id, array){
-//   array.forEach((task, indexArray) => {
-//     if ((task.id == id) && (task.isComplete == true)){
-//       let last = 0;
-//       let saveID = task.id;
-//       let saveText = task.text;
-//       let saveChecked = task.isComplete;
-//       // console.log(saveID, saveText, saveChecked);
-//       // let reversed = array.reverse();
-//       console.log(indexArray, array[0].id, array[0].text, array[0].isComplete);
-//       // reversed = array.reverse();
-//       task.id = array[last].id;
-//       task.text = array[last].text;
-//       task.isComplete = array[last].isComplete;
-//       array[last].id = saveID;
-//       array[last].text = saveText;
-//       array[last].isComplete = saveChecked;
-//       last = indexArray+1;
-//       // delete array[indexArray];
-//     } 
-//   });
-// }
-
 // Сохранение списка дел в localstorage
 function saveToLocalStorage(){
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   localStorage.setItem('starTasks', JSON.stringify(starTasks));
 }
-//
 
-// let circularProgress = document.querySelector('.circular-progress');
-// let progressValue = document.querySelector('.progress-value');
-// let interval;
-
-// let timeoutID = null;
-
-// function start(){
-//   if (timeoutID){
-//     return;
-//   }
-//   const mtime = 1500;
-//   const run = () =>{
-//     const time = -mtime
-//   }
-// }
-
-// dom.button_play.addEventListener('click', () =>{
-
-//   // let progressStartValueMinute = Math.floor(progressStartValue / 60);
-//   // let progressStartValueSecond = progressStartValue % 60;
-
-//   let progressStartValue = 1500;
-//   clearInterval(interval);
-//   setInterval(start, 1000, progressStartValue);
-//   console.log(111);
-// });
-
-// function start(progressStartValue){
-//   // let progressStartValue = 1500;
-//   console.log(progressStartValue);
-//   if (progressStartValue > 0) {
-//     progressStartValue--;
-//     console.log(progressStartValue);
-//   }
-
-
-  // let progressStartValueMinute = Math.floor(progressStartValue / 60);
-  // let progressStartValueSecond = progressStartValue % 60;
-  // progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`;
-  // circularProgress.style.background = `conic-gradient(purple ${progressStartValue * 0.24}deg, #ededed 1deg)`;
-//
 
 let circularProgress = document.querySelector('.circular-progress');
 let progressValue = document.querySelector('.progress-value');
@@ -387,11 +331,7 @@ let progressValue = document.querySelector('.progress-value');
 function startPomadoro(value, timeArrayValue){
   let inter;
   let progressStartValue = value;
-  // let progressStartValueMinute = 24;
-  //     progressStartValueSecond = "59";
-  // 100 => 100*3.6deg = 360
-  // 1500 => 1500*0.24deg
-  // 300
+
   let progressEndValue = 0;
   let speed = 1000; // скорость 1 секунда
   let deg; // градусы отклонения для радиального таймера
