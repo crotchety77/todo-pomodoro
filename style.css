@@ -31,15 +31,22 @@ body {
   justify-content: center;
   padding: 32px;
   /* margin: 5px; */
-
+  overflow: hidden;
 }
 .todo{
-
   padding: 32px;
   background-color: white;
   width: 90vh;
   border-radius: 16px;
   opacity: 70%;
+  
+}
+.todo__lists{
+  /* max-height: 70vh; */
+  height: 70vh;
+  /* width: 90%; */
+  overflow: auto;
+  /* padding: 20px; */
 }
 .todo:hover{
   background-position: left center;
@@ -49,10 +56,6 @@ body {
   margin-bottom: 15px;
 }
 
-.todo__content {
-}
-.todo__title {
-}
 .todo__new {
   --size: 50px;
   display:flex;
@@ -66,6 +69,7 @@ body {
   height: var(--size);
   flex-grow: 0.1;
 }
+
 .todo__task-del,
 .todo__add {
   cursor: pointer;
@@ -249,9 +253,10 @@ opacity: 40%;
 }
 /* Размер иконки выгрузки слишком большой. Пришлось уменьшить. */
 #icon_upload{
-  width: 35px;
-  height: 35px;
-  margin: 5px;
+  /* width: 35px; */
+  /* height: 35px; */
+  /* margin: 5px; */
+  padding: 1px;
   /* left: auto; */
   /* display: block; */
 }
@@ -313,6 +318,13 @@ opacity: 40%;
   /* padding-bottom: 40px;  */
   /* opacity: 1; */
 }
+.popup__body.popup__lists{
+  justify-content: center;
+}
+.box-notes{
+overflow: auto;
+height: 350px;
+}
 .popup__close {
   font-size: 40px;
   position: absolute;
@@ -325,6 +337,9 @@ opacity: 40%;
   font-size: 45px;
   font-weight: 500;
   padding-top: 20px;
+}
+.popup__title.title-lists{
+  padding: 0 0 10px;
 }
 .popup__text {
   font-size: 25px;
@@ -488,37 +503,50 @@ opacity: 40%;
   display: flex;
   align-items: center;
   border: 1px solid black;
-  padding: 8 px;
+  /* padding: 8px; */
   border-radius: 16px ;
 }
 
 .select__current {
 padding: 8px;
 font-size: 18px;
-width: 200px;
+width: 204px;
+text-overflow: ellipsis;
+overflow: hidden;
+cursor: pointer;
+white-space: nowrap;
 }
 .select__icon {
   cursor: pointer;
   display: flex;
+  /* border-left: 1px solid black; */
+  /* border-radius: 10px 0px 0px px; */
   /* flex-shrink: 0; */
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 40px;
+  width: 20px;
   height: 40px;
-  margin-right: 5px;
-  margin-left:auto;
+  font-size: 15px;
+  margin: 0 0px 0 12px;
+  /* margin-left:auto; */
 }
 .select__body {
   border: 1px solid black;
   border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 16px 16px;
   padding-bottom: 6px;
   display: none;
   /* position: absolute; */
   /* left: 0;
   right: 0;
   top: 100%; */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: red;
+  height: 28vh;
+  z-index: -1;
 }
 .select__section.is-active .select__header{
   border-radius: 16px 16px 0 0;
@@ -529,13 +557,45 @@ width: 200px;
 .select__item {
   cursor: pointer;
   font-size: 20px;
-  line-height: 24px;
-  padding: 8px;
-  /* margin: 0 5px; */
-  /* padding-bottom: 0; */
+  line-height: 32px;
+  padding: 0 8px 0;
+
+  /* Для того чтобы отображалось только 2 строки*/
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .select__item:hover{
   background-color: lightgray;
   /* border-radius: 16px; */
   /* margin: 0 10px; */
+}
+
+.message-box{
+  margin-top: 20px;
+  border: 1px solid black;
+  /* margin-right: 16px; */
+  font-size: 16px;
+  padding: 16px 16px;
+  border-radius: 16px;
+  height: var(--size);
+  flex-grow: 0.1;
+  display:flex;
+}
+.message-box.none{
+  display: none;
+}
+textarea {
+  border: none;
+  outline: none;
+}
+.button-s{
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-save{
+  display: flex;
+  align-items: flex-end;
 }

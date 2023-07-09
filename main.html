@@ -17,15 +17,17 @@
           <input id="new" type="text" placeholder="Новая задача" onkeydown="enter(this)">
           <div id="add" class="todo__add">+</div>
         </div>
-
-        <div id="list-star" class="todo__list">
-          <!-- Здесь невыполненные задачи -->
-        </div>
-        <div id="list" class="todo__list">
-          <!-- Здесь невыполненные задачи -->
-        </div>
-        <div id="list-complete" class="todo__list">
-          <!-- Здесь выполненные задачи -->
+        <div class="todo__lists">
+          <div id="list-star" class="todo__list">
+            <!-- Здесь невыполненные задачи -->
+          </div>
+          <div id="list" class="todo__list">
+            <!-- Здесь невыполненные задачи -->
+          </div>
+          <div id="list-complete" class="todo__list">
+            <h1>Bebra</h1>
+            <!-- Здесь выполненные задачи -->
+          </div>
         </div>
       </div>
     </div>
@@ -39,9 +41,9 @@
         <!-- иконку впихнуть и бордер вокруг -->
         <img src="/icons/icon_statistics.svg" alt="#" class="todo__pomodoro-icon">
       </div>
-      <div class="todo__pomodoro-button">
+      <div  id="icon-lists" class="todo__pomodoro-button">
         <!-- иконку впихнуть и бордер вокруг -->
-        <img src="/icons/icon_upload.svg" alt="#" id="icon_upload" class="todo__pomodoro-icon">
+        <img src="/icons/icon_file-text.svg" alt="#" id="icon_upload" class="todo__pomodoro-icon">
       </div>
       <div id="settings" class="todo__pomodoro-button">
         <!-- иконку впихнуть и бордер вокруг -->
@@ -75,21 +77,27 @@
                   1/4
                 </div>
               </div>
-
             </div>
           </div>
-
         </div>
+
         <div class="select__section">
           <div class="select__header">
             <div class="select__current"></div>
-            <div class="select__icon">&times;</div>
+            <div class="select__icon">▼</div>
           </div>
-
-          <div id="select__body" class="select__body">
-
+            <div id="select__body" class="select__body">
           </div>
-          
+          <div class="text-input__section">
+            <!-- <form action="#"> -->
+              <div class="message-box" id="message-box">
+                <textarea placeholder="Сообщение" rows="15" spellcheck="false"></textarea>
+              </div>
+              <div class="button-s">
+                <input id="save" type="submit" value="Сохранить" />
+              </div>
+            <!-- </form> -->
+          </div>
         </div>
       </div>
     </div>
@@ -103,7 +111,45 @@
         </div>
       </div>
     </div>
-    
+
+    <div id="popupLists" class="popup">
+      <div class="popup__body popup__lists">
+        <div class="popup__content">
+          <a id="close-popupLists" href="#" class="popup__close">x</a>
+          <div class="panel-data">
+            <div class="popup__title title-lists"> [Дата] </div>
+            <!-- Кнопка вперёд и назад -->
+            <!-- Кнопка скопировать всё -->
+          </div>
+          <div class="box-notes">
+            <div class="note1">
+              <b>## Bold</b>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
+            </div>
+
+            <div class="note2">
+              <b>## aold</b>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
+            </div>
+            
+            <div class="note3">
+              <b>## sdold</b>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
+            </div>
+
+            <div class="note4">
+              <b>## gold</b>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
+            </div>
+            <!-- Скролл и 4+ заметки в формате
+            ## TaskName
+            NoteText
+             -->
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <script src="script.js"></script>
 </body>

@@ -1,22 +1,27 @@
 const dom = {
   new: document.getElementById('new'),
   add: document.getElementById('add'),
+  save: document.getElementById('save'),
   list: document.getElementById('list'),
   listcomplete: document.getElementById('list-complete'),
   liststar: document.getElementById('list-star'),
   timer: document.getElementById('timer'),
   settings: document.getElementById('settings'),
+  iconLists: document.getElementById('icon-lists'),
   popup: document.getElementById('popup'),
   popupSettings: document.getElementById('popupSettings'),
+  popupLists: document.getElementById('popupLists'),
   close_popup: document.getElementById('close-popup'),
   close_popupSettings: document.getElementById('close-popupSettings'),
+  close_popupLists: document.getElementById('close-popupLists'),
   button_back:document.getElementById('button_back'),
   button_next:document.getElementById('button_next'),
   button_play:document.getElementById('button_play'),
   time_next:document.getElementById('time_next'),
   countTime:document.getElementById('countTime'),
   selectHeader:document.querySelectorAll('.select__header'),
-  selectBody:document.getElementById('select__body')
+  selectBody:document.getElementById('select__body'),
+  messageBox:document.getElementById('message-box')
 }
 
 let tasks = [] // Массив задач
@@ -58,7 +63,9 @@ dom.add.onclick = () => {
     dom.new.value = '';
   }
 }
-
+dom.save.onclick = () => {
+  console.log('блямбец');
+}
 //Функция добавления задачи
 function addTask(text, array, flagStar = 0) {
   // Создание уникального ID
@@ -138,7 +145,7 @@ dom.timer.onclick= (event) =>{
     }
     // Список закрывающихся других попапов при открытии этого
     popupSettings.className = "popup";
-    //
+    popupLists.className = "popup";
     popup.className = "popup popup-open";
 
   }
@@ -146,11 +153,31 @@ dom.timer.onclick= (event) =>{
 dom.close_popup.onclick = (event) =>{
   const target = event.target;
   if (target.classList.contains('popup__close')) {
-
     popup.className = "popup";
 
   }
 }
+// POPUP LISTS
+dom.iconLists.onclick= (event) =>{
+  const target = event.target;
+  if (target.classList.contains('todo__pomodoro-icon')) {
+    if (popupLists.className == "popup popup-open"){
+      popupLists.className = "popup";
+      return;
+    }
+    // Список закрывающихся других попапов при открытии этого
+    popup.className = "popup";
+    popupSettings.className = "popup"
+    popupLists.className = "popup popup-open";
+  }
+}
+dom.close_popupLists.onclick= (event) =>{
+  const target = event.target;
+  if (target.classList.contains('popup__close')) {
+    popupLists.className = "popup";
+  }
+}
+
 // POPUP SETTINGS
 dom.settings.onclick= (event) =>{
   const target = event.target;
@@ -161,6 +188,7 @@ dom.settings.onclick= (event) =>{
     }
     // Список закрывающихся других попапов при открытии этого
     popup.className = "popup";
+    popupLists.className = "popup";
     popupSettings.className = "popup popup-open";
   }
 }
@@ -172,6 +200,7 @@ dom.close_popupSettings.onclick= (event) =>{
 
   }
 }
+
 // Считывание событий (добавление в выполненные/удаление) со списка невыполненных задач
 dom.list.onclick = (event) => {
   const target = event.target;
@@ -488,11 +517,13 @@ function listRender(array, array2){
   dom.selectBody.innerHTML = htmlList;
 }
 
+
 dom.selectHeader.forEach(element => {
   element.addEventListener('click', function(){
     listRender(tasks, starTasks);
     // listRender(tasks);
-    this.parentElement.classList.toggle('is-active')
+    this.parentElement.classList.toggle('is-active');
+    dom.messageBox.classList.toggle('none');
   })
 });
 // selectItem = document.querySelectorAll('.select__item');
@@ -503,7 +534,8 @@ dom.selectBody.onclick = (event) => {
     let selectSection = target.closest('.select__section');
     let current = selectSection.querySelector('.select__current');
     current.innerText = target.innerText;
-    selectSection.classList.remove('is-active');  
+    selectSection.classList.remove('is-active'); 
+    dom.messageBox.classList.remove('none'); 
     // this.closest('.select__section').
     // .querySelector('.selector__current') = 
     // target.innerText;
