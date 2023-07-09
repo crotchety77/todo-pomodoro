@@ -25,7 +25,6 @@
             <!-- Здесь невыполненные задачи -->
           </div>
           <div id="list-complete" class="todo__list">
-            <h1>Bebra</h1>
             <!-- Здесь выполненные задачи -->
           </div>
         </div>
@@ -83,7 +82,7 @@
 
         <div class="select__section">
           <div class="select__header">
-            <div class="select__current"></div>
+            <div id="select__current" class="select__current"></div>
             <div class="select__icon">▼</div>
           </div>
             <div id="select__body" class="select__body">
@@ -91,7 +90,7 @@
           <div class="text-input__section">
             <!-- <form action="#"> -->
               <div class="message-box" id="message-box">
-                <textarea placeholder="Сообщение" rows="15" spellcheck="false"></textarea>
+                <textarea id="noteText" placeholder="Сообщение" rows="15" spellcheck="false"></textarea>
               </div>
               <div class="button-s">
                 <input id="save" type="submit" value="Сохранить" />
@@ -121,7 +120,7 @@
             <!-- Кнопка вперёд и назад -->
             <!-- Кнопка скопировать всё -->
           </div>
-          <div class="box-notes">
+          <div id="box-notes" class="box-notes">
             <div class="note1">
               <b>## Bold</b>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
@@ -148,7 +147,6 @@
           </div>
         </div>
       </div>
-    </div>
 
   </div>
   <script src="script.js"></script>

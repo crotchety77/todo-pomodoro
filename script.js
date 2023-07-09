@@ -2,6 +2,7 @@ const dom = {
   new: document.getElementById('new'),
   add: document.getElementById('add'),
   save: document.getElementById('save'),
+  noteText: document.getElementById('noteText'),
   list: document.getElementById('list'),
   listcomplete: document.getElementById('list-complete'),
   liststar: document.getElementById('list-star'),
@@ -20,14 +21,16 @@ const dom = {
   time_next:document.getElementById('time_next'),
   countTime:document.getElementById('countTime'),
   selectHeader:document.querySelectorAll('.select__header'),
+  selectCurrent:document.getElementById('select__current'),
   selectBody:document.getElementById('select__body'),
-  messageBox:document.getElementById('message-box')
+  messageBox:document.getElementById('message-box'),
+  boxNotes:document.getElementById('box-notes')
 }
-
 let tasks = [] // Массив задач
 let completedTasks = [] // Массив выполненных задач, которые выводятся ниже
 let starTasks = [] // Избранные заметки
 let time = [1500, 300, 1500, 300, 1500, 300, 1500, 300, 1800];
+let notes = []; // Массив заметок
 
 // Из локал стораджа достаём списки
 if (localStorage.getItem('tasks') || (localStorage.getItem('completedTasks'))){
@@ -64,8 +67,38 @@ dom.add.onclick = () => {
   }
 }
 dom.save.onclick = () => {
-  console.log('блямбец');
+  let note = noteText.value;
+  let current = dom.selectCurrent.innerText;
+  if (note){
+    addNote(current, note, notes);
+    notesRender(notes);
+  }
 }
+
+function addNote(heading, text, array) {
+  let note = {
+    heading,
+    text
+  }
+  array.push(note);
+}
+
+function notesRender(array){
+  let htmlList = ''; 
+
+  array.forEach((note) => {
+    const htmlTask = `
+    <div class="note">
+      <b>## ${note.heading}</b>
+      <p>${note.text}</p>
+    </div>
+    `
+    htmlList = htmlList + htmlTask;
+    dom.boxNotes.innerHTML = htmlList;
+  })
+// Сделать сохранение в локал сторадж
+}
+
 //Функция добавления задачи
 function addTask(text, array, flagStar = 0) {
   // Создание уникального ID
