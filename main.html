@@ -93,7 +93,7 @@
                 <textarea id="noteText" placeholder="Сообщение" rows="15" spellcheck="false"></textarea>
               </div>
               <div class="button-s">
-                <input id="save" type="submit" value="Сохранить" />
+                <input id="save" type="submit" value="Сохранить"/>
               </div>
             <!-- </form> -->
           </div>
@@ -112,34 +112,21 @@
     </div>
 
     <div id="popupLists" class="popup">
-      <div class="popup__body popup__lists">
-        <div class="popup__content">
+      <div class="popup__body ">
+        <div class="popup__content popup__lists">
           <a id="close-popupLists" href="#" class="popup__close">x</a>
           <div class="panel-data">
             <div class="popup__title title-lists"> [Дата] </div>
             <!-- Кнопка вперёд и назад -->
             <!-- Кнопка скопировать всё -->
+            <div class="button-copy">
+              <input id="copy" type="submit" value="Копировать" />
+            </div>
+
+
+            
           </div>
           <div id="box-notes" class="box-notes">
-            <div class="note1">
-              <b>## Bold</b>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
-            </div>
-
-            <div class="note2">
-              <b>## aold</b>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
-            </div>
-            
-            <div class="note3">
-              <b>## sdold</b>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
-            </div>
-
-            <div class="note4">
-              <b>## gold</b>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim labore perferendis, eaque facere recusandae voluptatibus minima, quia, voluptate cumque amet quibusdam at aut quo quos excepturi tenetur sed reprehenderit tempore?</p>
-            </div>
             <!-- Скролл и 4+ заметки в формате
             ## TaskName
             NoteText

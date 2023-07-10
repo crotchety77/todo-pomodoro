@@ -2,6 +2,7 @@ const dom = {
   new: document.getElementById('new'),
   add: document.getElementById('add'),
   save: document.getElementById('save'),
+  copy: document.getElementById('copy'),
   noteText: document.getElementById('noteText'),
   list: document.getElementById('list'),
   listcomplete: document.getElementById('list-complete'),
@@ -12,6 +13,7 @@ const dom = {
   popup: document.getElementById('popup'),
   popupSettings: document.getElementById('popupSettings'),
   popupLists: document.getElementById('popupLists'),
+  pNote: document.querySelectorAll('.pNote'),
   close_popup: document.getElementById('close-popup'),
   close_popupSettings: document.getElementById('close-popupSettings'),
   close_popupLists: document.getElementById('close-popupLists'),
@@ -72,6 +74,7 @@ dom.save.onclick = () => {
   if (note){
     addNote(current, note, notes);
     notesRender(notes);
+    dom.noteText.value = "";
   }
 }
 
@@ -83,20 +86,28 @@ function addNote(heading, text, array) {
   array.push(note);
 }
 
+
+
 function notesRender(array){
   let htmlList = ''; 
-
   array.forEach((note) => {
-    const htmlTask = `
-    <div class="note">
-      <b>## ${note.heading}</b>
-      <p>${note.text}</p>
-    </div>
+
+    const htmlTask = `## ${note.heading}
+    ${note.text}
     `
+
+    // Здесь ублюдский рендер текста так как
+    // `213
+    // 312`
+    // Переносит ${} текст не так как выше, а вот так `213 312`
+    
     htmlList = htmlList + htmlTask;
-    dom.boxNotes.innerHTML = htmlList;
+
+    // Поэтому здесь innerText
+    dom.boxNotes.innerText = htmlList;
+
   })
-// Сделать сохранение в локал сторадж
+// Скорее всего не удастся так делать локал сторадж. Сделать сохранение в локал сторадж
 }
 
 //Функция добавления задачи
@@ -556,6 +567,13 @@ dom.selectHeader.forEach(element => {
     listRender(tasks, starTasks);
     // listRender(tasks);
     this.parentElement.classList.toggle('is-active');
+    let note = noteText.value;
+    let current = dom.selectCurrent.innerText;
+    if (note){
+      addNote(current, note, notes);
+      notesRender(notes);
+      dom.noteText.value = "";
+    }
     dom.messageBox.classList.toggle('none');
   })
 });
@@ -578,13 +596,48 @@ dom.selectBody.onclick = (event) => {
 
 }
     
-// dom.selectBody.forEach(element => {
-//   element.addEventListener('click', function(){
-//     console.log(123);
-    
-//     // this.parentElement.previousElementSibling.firstElementChild.innerText = this.innerText;
+dom.copy.onclick = (event) => {
+  navigator.clipboard.writeText(copyNotes(notes));
+}
+function copyNotes(array){
+  let NoteList = ''; 
 
-//   })
-// });
+  notes.forEach((note) => {
+    const htmlTask = `## ${note.heading}\n${note.text}\n`
+    NoteList = NoteList + htmlTask;
+  })
+  return NoteList;
+}
 
-// select();
+// Отслеживаем Enter при заполнении задачи
+
+noteText.addEventListener('keypress', (event) => {
+  const keyName = event.key;
+console.log(event.code, event.keyCode, event.key);
+  if (event.shiftKey && event.keyCode === 13) {
+
+    let note = noteText.value;
+    let current = dom.selectCurrent.innerText;
+    if (note){
+      addNote(current, note, notes);
+      notesRender(notes);
+      dom.noteText.value = "";
+    }
+  }
+
+});
+
+// function enter2(key, key2){
+//   // let num;
+//   // console.log(num);
+//   // if (num === undefined){
+//   //   console.log(123);
+//   //   num = key;
+//   //   console.log(num);
+//   // }
+//   // // let 
+//    console.log(key, key2);
+//     if(key2 === 'Shift' && key === 'Enter'){
+      
+//     }
+//   }
