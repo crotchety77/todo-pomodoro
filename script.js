@@ -72,16 +72,39 @@ dom.save.onclick = () => {
   let note = noteText.value;
   let current = dom.selectCurrent.innerText;
   if (note){
+    // Жмётся пауза, чтобы сохранить значение timeCurrent
+    button_play.src = "/icons/icon_play.svg";
+    button_play.classList = "todo__pomodoro-icon icon-play";
+
+    clearInterval(intervalID);
+    let timeRemaining = progressValue.textContent;
+    let numbers = timeRemaining.split(':');
+    let minute = numbers[0];
+    let seconds = numbers[1];
+    console.log(numbers);
+    console.log(numbers[0], numbers[1]);
+    timeCurrent = Number(minute)*60 + Number(seconds);
+    //
     addNote(current, note, notes);
     notesRender(notes);
     dom.noteText.value = "";
   }
 }
 
-function addNote(heading, text, array) {
+function addNote(heading, text, array) { 
+  timeCurrent = 1500 - timeCurrent;
+  if (timeCurrent < 0){
+    timeCurrent = 1500 - timeCurrent;
+  }
+  let timeC = convertSecondsToTime(timeCurrent)
   let note = {
     heading,
-    text
+    text,
+    cntPomador: cntPomador,
+    time: timeC,
+    // timeCurrent обновляется после паузы
+    // time: progressValue.textContent
+    Datetime: new Date()
   }
   array.push(note);
 }
@@ -90,9 +113,16 @@ function addNote(heading, text, array) {
 
 function notesRender(array){
   let htmlList = ''; 
+
+  const today = new Date();
+  const year = today.getFullYear(); 
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const formattedDate = `${year}${month}${day}`;
+
   array.forEach((note) => {
 
-    const htmlTask = `## ${note.heading}
+    const htmlTask = `## ${note.heading} [${formattedDate}] [${note.time}] [${note.cntPomador}]
     ${note.text}
     `
 
@@ -428,6 +458,9 @@ function startPomadoro(value, timeArrayValue){
   inter = setInterval(() =>{
     progressStartValue--;
     let progressStartValueMinute = Math.floor(progressStartValue / 60);
+    if ((progressStartValue / 60) < 0){
+      progressStartValueMinute = Math.ceil(progressStartValue / 60);
+    }
     let progressStartValueSecond = progressStartValue % 60;
     progressValue.textContent = `${progressStartValueMinute}:${progressStartValueSecond}`;
     // progressValue = `123`;
@@ -441,6 +474,7 @@ function startPomadoro(value, timeArrayValue){
 let intervalID;
 let timeArray = [1500, 300, 1500, 300, 1500, 300, 1500, 300, 1800];
 let cnt = 0; // проходить будем по массиву
+let cntPomador = 1; // буду записывать число в note
 
 let timeCurrent = timeArray[cnt];
 
@@ -448,24 +482,20 @@ let timeCurrent = timeArray[cnt];
 
 dom.button_play.onclick = (event) => {
   const target = event.target;
-  // console.log(target);
   if (target.classList.contains('icon-play')){
-    // console.log(target);
-    // снести icon-play и поставить icon pause
-    // изменить адресс svg
+
     button_play.src = "/icons/icon_pause.svg";
     button_play.classList = "todo__pomodoro-icon icon-pause";
-    // if ()
+
     intervalID = startPomadoro(timeCurrent, timeArray[cnt]);
     console.log(timeArray[cnt]);
-    // console.log(123); 
-    // (target.classList.contains('icon-pause'))
+
   }
   else if (target.classList.contains('icon-pause')){
-    // console.log('хочу запаузить', intervalID);
+
     button_play.src = "/icons/icon_play.svg";
     button_play.classList = "todo__pomodoro-icon icon-play";
-    // console.log(intervalID);
+
     clearInterval(intervalID);
     let timeRemaining = progressValue.textContent;
     let numbers = timeRemaining.split(':');
@@ -475,7 +505,7 @@ dom.button_play.onclick = (event) => {
     console.log(numbers[0], numbers[1]);
     timeCurrent = Number(minute)*60 + Number(seconds);
   }
-  // console.log(intervalID);
+
 }
 dom.button_next.onclick = (event) => {
   clearInterval(intervalID);
@@ -483,11 +513,22 @@ dom.button_next.onclick = (event) => {
   if (target.classList.contains('icon-next')){
     if (cnt < 8){
     cnt++;
-    if (cnt < 1) dom.countTime.textContent = `1/4`;
-    if ((2 <= cnt) && cnt < 3) dom.countTime.textContent = `2/4`;
-    if ((4 <= cnt) && cnt < 5) dom.countTime.textContent = `3/4`;    
-    if ((6 <= cnt) && cnt < 8) dom.countTime.textContent = `4/4`;
-    }
+    if (cnt < 1){
+      dom.countTime.textContent = `1/4`;
+      cntPomador++;
+    } 
+    if ((2 <= cnt) && cnt < 3){
+      dom.countTime.textContent = `2/4`;
+      cntPomador++;
+    } 
+    if ((4 <= cnt) && cnt < 5){
+      dom.countTime.textContent = `3/4`;
+      cntPomador++;
+    } 
+    if ((6 <= cnt) && cnt < 8){
+      dom.countTime.textContent = `4/4`;
+      cntPomador++;
+    }}
     else{
       cnt = 0;
       dom.countTime.textContent = `1/4`;
@@ -567,9 +608,24 @@ dom.selectHeader.forEach(element => {
     listRender(tasks, starTasks);
     // listRender(tasks);
     this.parentElement.classList.toggle('is-active');
+    // Сохранение заметки при выборе другой задачи
     let note = noteText.value;
     let current = dom.selectCurrent.innerText;
     if (note){
+      // Жмётся пауза, чтобы сохранить значение timeCurrent
+      button_play.src = "/icons/icon_play.svg";
+      button_play.classList = "todo__pomodoro-icon icon-play";
+
+      clearInterval(intervalID);
+      let timeRemaining = progressValue.textContent;
+      let numbers = timeRemaining.split(':');
+      let minute = numbers[0];
+      let seconds = numbers[1];
+      console.log(numbers);
+      console.log(numbers[0], numbers[1]);
+      timeCurrent = Number(minute)*60 + Number(seconds);
+      //
+
       addNote(current, note, notes);
       notesRender(notes);
       dom.noteText.value = "";
@@ -603,7 +659,13 @@ function copyNotes(array){
   let NoteList = ''; 
 
   notes.forEach((note) => {
-    const htmlTask = `## ${note.heading}\n${note.text}\n`
+
+    const year = note.Datetime.getFullYear(); 
+    const month = String(note.Datetime.getMonth() + 1).padStart(2, '0');
+    const day = String(note.Datetime.getDate()).padStart(2, '0');
+    const formattedDate = `${year}${month}${day}`;
+    const time = convertSecondsToTime(note.time);
+    const htmlTask = `## ${note.heading} [${formattedDate}][${time}][${note.cntPomador}]\n${note.text}\n`
     NoteList = NoteList + htmlTask;
   })
   return NoteList;
@@ -627,17 +689,15 @@ console.log(event.code, event.keyCode, event.key);
 
 });
 
-// function enter2(key, key2){
-//   // let num;
-//   // console.log(num);
-//   // if (num === undefined){
-//   //   console.log(123);
-//   //   num = key;
-//   //   console.log(num);
-//   // }
-//   // // let 
-//    console.log(key, key2);
-//     if(key2 === 'Shift' && key === 'Enter'){
-      
-//     }
-//   }
+function convertSecondsToTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  const remainingSeconds = seconds - (hours * 3600) - (minutes * 60);
+
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+  const formattedTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  return formattedTime;
+}
